@@ -1,10 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePortalDto } from './dto/portal-dto';
-import Cheerio from 'cheerio';
-import axios from 'axios';
+import { REQ_URL } from 'src/scaper/CONSTANTS';
 import { ScapperService } from 'src/scaper/scaper-service';
 import { PortalScaper } from './portal-scaper.service';
-import { MobileURI } from 'src/scaper/CONSTANTS';
 @Injectable()
 export class PortalService {
   constructor(
@@ -40,15 +37,14 @@ export class PortalService {
     const selector =
       '#__next > div > div > div > div.optimus-app-1ualm84.e19uumca1 > div.optimus-app-yqd9tx > div.optimus-app-grfr5v > div.optimus-app-ys55sm.e19uumca13 > div.optimus-app-njzfp.e19uumca12 > main > article';
 
+    const truckItems = this.portalScapper.scrapeTruckItem($, selector);
     return {
       totalAds: this.portalScapper.getTotalAdsCount($),
-      showingAds: this.portalScapper.scrapeTruckItem($, selector).length,
-      data: this.portalScapper.scrapeTruckItem($, selector),
-      nextPage: `http://localhost:5000/portal/bonus?page=${nextPage}`,
+      showingAds: truckItems.length,
+      data: truckItems,
+      nextPage: `${REQ_URL}/portal/bonus?page=${nextPage}`,
       prevPage:
-        prevPage > 0
-          ? `http://localhost:5000/portal/bonus?page=${prevPage}`
-          : undefined,
+        prevPage > 0 ? `${REQ_URL}/portal/bonus?page=${prevPage}` : undefined,
     };
   }
 }

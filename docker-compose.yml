@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  nginx:
+    image: staticfloat/nginx-certbot
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    restart: unless-stopped
+    environment:
+      CERTBOT_EMAIL: officials.hasan@gmail.com
+    volumes:
+      - ./nginx:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
+
+  otomoto-scaper:
+    image: lithaxor/otomoto-scaper
+    env_file: .env
+    ports:
+      - '5000:5000'
+    command: npm run start:dev
+    environment:
+      PORT: '5000'
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    env_file: .env
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - .docker/config.json:/config.json
+    command: --interval 30 --cleanup
