@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { REQ_URL } from 'src/scaper/CONSTANTS';
+// import { REQ_URL } from 'src/scaper/CONSTANTS';
 import { ScapperService } from 'src/scaper/scaper-service';
 import { PortalScaper } from './portal-scaper.service';
 @Injectable()
 export class PortalService {
+  REQ_URL = `${process.env.PORTAL_URL}`;
   constructor(
     private readonly scaperService: ScapperService,
     private readonly portalScapper: PortalScaper,
@@ -42,9 +43,11 @@ export class PortalService {
       totalAds: this.portalScapper.getTotalAdsCount($),
       showingAds: truckItems.length,
       data: truckItems,
-      nextPage: `${REQ_URL}/portal/bonus?page=${nextPage}`,
+      nextPage: `${this.REQ_URL}/portal/bonus?page=${nextPage}`,
       prevPage:
-        prevPage > 0 ? `${REQ_URL}/portal/bonus?page=${prevPage}` : undefined,
+        prevPage > 0
+          ? `${this.REQ_URL}/portal/bonus?page=${prevPage}`
+          : undefined,
     };
   }
 }
