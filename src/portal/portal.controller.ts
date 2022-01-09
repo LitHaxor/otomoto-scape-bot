@@ -14,7 +14,7 @@ export class PortalController {
 
   @Get('/bonus')
   async getBonus(@Query('page') page: number) {
-    page = page === undefined ? 2 : Number(page);
+    page = page === undefined ? 1 : Number(page);
     return await this.portalService.mobileBot(page);
   }
 }
