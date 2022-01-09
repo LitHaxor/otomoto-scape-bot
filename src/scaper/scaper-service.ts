@@ -6,6 +6,7 @@ import cheerio from 'cheerio';
 export class ScapperService {
   async loadHTML(url: string) {
     const markup = await this.fetchHTML(url);
+
     return cheerio.load(markup);
   }
 
