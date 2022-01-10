@@ -12,6 +12,7 @@ export class PortalScaper {
       .find('div[data-testid="ad-price-value"]')
       .children()
       .text();
+
     const descriptions: Array<string> = [];
     $(selector)
       .find('section > ul > li > span')

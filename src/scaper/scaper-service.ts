@@ -6,13 +6,17 @@ import cheerio from 'cheerio';
 export class ScapperService {
   async loadHTML(url: string) {
     const markup = await this.fetchHTML(url);
-
     return cheerio.load(markup);
   }
 
   private async fetchHTML(url: string) {
     try {
-      const { data } = await baseAPI.get(url);
+      const { data } = await baseAPI.get(url, {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.2 Safari/605.1.15',
+        },
+      });
       //   console.log(data);
 
       return data;
