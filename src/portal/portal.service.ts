@@ -35,9 +35,7 @@ export class PortalService {
     const $ = await this.scaperService.loadHTML(
       this.portalScapper.getNextPageUrl(page),
     );
-    const selector =
-      '#__next > div > div > div > div.optimus-app-1ualm84.e19uumca1 > div.optimus-app-yqd9tx > div.optimus-app-grfr5v > div.optimus-app-ys55sm.e19uumca13 > div.optimus-app-njzfp.e19uumca12 > main > article';
-
+    const selector = 'article[data-testid="listing-ad"]';
     const truckItems = this.portalScapper.scrapeTruckItem($, selector);
     return {
       totalAds: this.portalScapper.getTotalAdsCount($),
